@@ -1,3 +1,5 @@
 *
 !report.tex
 !.gitignore
+!Makefile
+!report.bib
