@@ -1,8 +1,8 @@
 default: report.tex
-	latex report
+	pdflatex report
 	bibtex report
-	latex report
+	pdflatex report
 	pdflatex report
 
 clean:
-	find . -not -name "report.tex" -not -name "report.bib" -not -name "Makefile" -not -name ".gitignore" -delete
+	find . -not -name "*.png" -not -name "report.tex" -not -name "report.bib" -not -name "Makefile" -not -name ".gitignore" -delete
