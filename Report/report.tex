@@ -14,9 +14,26 @@
 \newpage
 \part*{Introduction}
 The Recursive Inter-Network Architecture (RINA) is a network architecture based on Internet Process Communication
-(IPC) presented as an alternative to TCP/IP.
+(IPC) presented as an alternative to TCP/IP.\@ It was designed a while ago without security in mind. It has been
+patched to include security but it creates complexity.\cite{assessing-security}
 
 \part{Comparing RINA against TCP/IP}
+\section{Distibuted Application Facility}
+The smallest part of RINA is the Distributed Application Process (DAP) which is a process running on a host,
+if at least two of them communicate it is called a Distributed Application Facility (DAF). They communicate 
+with objects structured in a Resource Information Base (RIB) that define naming and structure. They use
+a Common Distributed Application Protocol (CDAP) that permit to execute 6 operations on a distant DAP's
+objects:
+\begin{itemize}
+\item create
+\item delete
+\item read
+\item start
+\item stop
+\item write
+\end{itemize}
+The DAF can be compared to the Application layer on the TCP/IP model. For multiple DAPs to communicate, they 
+need underlying `layers'.\cite{wiki}
 
 \part{Security induced by RINA's conception}
 
@@ -24,6 +41,6 @@ The Recursive Inter-Network Architecture (RINA) is a network architecture based 
 
 \nocite{*}
 \newpage
-\bibliographystyle{plain}
+\bibliographystyle{unsrt}
 \bibliography{report}
 \end{document}
