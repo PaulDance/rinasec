@@ -27,6 +27,7 @@ Some simulations and studies have been lead in Europe with IRATI\cite{web:irati}
 \newpage
 
 \part{Comparing RINA and TCP/IP}
+\section{Overview}
 RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It can be stacked as much as needed by the network architecture instead of being a static model like in TCP/IP\@.
 Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{wiki}:
 \begin{itemize}
@@ -49,6 +50,9 @@ The $(N + 1)-DIF$ is saw as an Application Process (AP) because all IPCPs are ac
 There is one exception to this rule, there is a special DIF that is called a Distributed Application Facility (DAF) that has no $(N + 1)-DIF$\@.
 This DIF is composed of one or more Distributed Application Processes (DAPs) in place of IPCPs.
 This DIF can be considered as the Application layer from the TCP/IP model.
+IPCPs only communicates with other IPCPs in the same DIF like in the TCP/IP model with layers.
+IPCs communicate in the form of Protocol Data Units (PDUs) that contain a header or a trailer, named Protocol Control Information (PCI), and a payload.
+
 
 \begin{figure}
     \centering\includegraphics[width=\columnwidth]{arch.png}\caption{RINA's architecture}\label{fig:arch}
