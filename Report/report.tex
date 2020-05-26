@@ -5,6 +5,7 @@
 \usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{mathtools}
 
 \author{Paul MABILEAU\\\texttt{paul.mabileau@telecom-sudparis.eu} \and Franck STAUFFER\\\texttt{franck.stauffer@telecom-sudparis.eu}}
 \title{\textbf{Recursive Inter-Network Architecture's Security}}
@@ -13,34 +14,45 @@
 \maketitle
 \tableofcontents
 \newpage
-\part*{Introduction}
-The Recursive Inter-Network Architecture (RINA) is a network architecture based on Internet Process Communication (IPC) presented as an alternative to TCP/IP\@.
-It was designed a while ago without security in mind. 
-It has been patched to include security but it creates complexity.\cite{assessing-security}
+\part{Introduction}
+The Recursive Inter-Network Architecture (RINA) is a network architecture born in John Day's \texttt{Patterns in Network Architecture: A Return to Fundamentals} in 2008.
+It emerges from the fact that TCP/IP was designed a while ago without security in mind and that the huge amount of RFCs\cite{rfc} published since 1969 by the IETF to add security in it created complexity.\cite{assessing-security}
+Moreover the book states that the current internet architecture is not an actual `inter-net' but more a juxtaposition of different networks on a same bigger network.
+\\To remedy, it proposes to go back to fundamentals and states that networking is only Inter Process Communication (IPC) and thus John Day proposed the Recursive InterNetwork Architecture (RINA) as an alternative.
+RINA promises to reduce complexity by reducing the number of protocols, separating mechanisms and policies, using connection-less communications and reworking the whole way things work.
+This architecture claims to be more secure by design than the TCP/IP architecture.
+\\The architecture is also developped by the Pouzin Society\cite{psoc} that kind of replace the IETF by publishing specifications.
+Some simulations and studies have been lead in Europe with IRATI\cite{web:irati} and PRISTINE\cite{pristine} for example.
+\\First we will provide a presentation of the RINA architecture, then we will discuss its security compared to the TCP/IP architecture.
+\newpage
 
-\part{Comparing RINA against TCP/IP}
-\section{Distibuted Application Facility}
-The smallest part of RINA is the Distributed Application Process (DAP) which is a process running on a host, if at least two of them communicate it is called a Distributed Application Facility (DAF).
-They communicate with objects structured in a Resource Information Base (RIB) that define naming and structure. (figure~\ref{daf})\\
-They use a Common Distributed Application Protocol (CDAP) that permit to execute 6 operations on a distant DAP's objects:
+\part{Comparing RINA and TCP/IP}
+RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It can be stacked as much as needed by the network architecture instead of being a static model like in TCP/IP\@.
+Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{wiki}:
 \begin{itemize}
-\item create
-\item delete
-\item read
-\item start
-\item stop
-\item write
+    \item Create
+    \item Delete
+    \item Read
+    \item Start
+    \item Stop
+    \item Write
 \end{itemize}
-The DAF can be compared to the Application layer on the TCP/IP model. DAPs need underlying `layers' to communicate.\cite{wiki}
+Those IPCPs deal with tasks which can be divided in three parts (figure~\ref{fig:arch}).
+The parts are ordered from the less complex and more frequent to the more complex and less frequent ones:
+\begin{itemize}
+    \item Data Transfer: it deals with SDU delimiting, SDU Protection, Relaying and Multiplexing and actual Data Transfer
+    \item Data Transfer Control: it deals with Transmission Control, Retransmission Control and Flow Control
+    \item Layer Management: it deals with Authentication, Enrollment, Namespace Management, Flow Allocation, Forwarding Table Generator, Resource Allocation, Security Management and CDAP Parsing and Generation
+\end{itemize}
+The $N-DIF$ only knows $(N + 1)-DIF$ and $(N - 1)-DIF$\@.
+The $(N + 1)-DIF$ is saw as an Application Process (AP) because all IPCPs are actually APs.
+There is one exception to this rule, there is a special DIF that is called a Distributed Application Facility (DAF) that has no $(N + 1)-DIF$\@.
+This DIF is composed of one or more Distributed Application Processes (DAPs) in place of IPCPs.
+This DIF can be considered as the Application layer from the TCP/IP model.
 
 \begin{figure}
-    \centering
-    \includegraphics[width=0.9\columnwidth]{DAF.png}\label{daf}\caption{Base of RINA's architecture}
+    \centering\includegraphics[width=\columnwidth]{arch.png}\caption{RINA's architecture}\label{fig:arch}
 \end{figure}
-
-\section{Distributed IPC Facility}
-A Distributed IPC Facility (DIF) is a DAF but instead of containing DAPs, it contains IPC Processes (IPCPs).
-It can be compared to a layer in the TCP/IP model but there is not a fixed amount of DIFs, the number can be adapted to the needs of a specific network.
 
 \part{Security provided by RINA's conception}
 
