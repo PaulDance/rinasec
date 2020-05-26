@@ -5,6 +5,7 @@
 \usepackage[english]{babel}
 \usepackage{graphicx}
 \usepackage{url}
+\usepackage{indentfirst}
 
 \author{Paul MABILEAU\\\texttt{paul.mabileau@telecom-sudparis.eu} \and Franck STAUFFER\\\texttt{franck.stauffer@telecom-sudparis.eu}}
 \title{\textbf{Recursive Inter-Network Architecture's Security}}
@@ -43,8 +44,33 @@ A Distributed IPC Facility (DIF) is a DAF but instead of containing DAPs, it con
 It can be compared to a layer in the TCP/IP model but there is not a fixed amount of DIFs, the number can be adapted to the needs of a specific network.
 
 \part{Security provided by RINA's conception}
+\section{Authentication}
 
-\part{(optionnel) The threats to RINA}
+\par In RINA, authentication is mandatory. This is one of the major, if not the
+most important security feature of the architecture, as previous security
+analysis often consider attacks plausible only after a successful authentication
+\cite{assessing-security, wiki, PINS}.
+
+\par Authentication occurs before a process may communicate on a DIF, either by
+creating a new one, or by joining an existing one, and is verified by the
+destination application process. When creating a brand new DIF, the initial IPC
+process simply has to exist in order to let others join the newly created DIF.
+When joining an already existing DIF, the joining process asks permission to the
+destination process it wants to communicate with. It achieves this using a
+subsequent DIF that both processes have in common and are authenticated in.
+The destination process is the one that determines whether the joining one has
+sufficient rights through any sort of authentication, described in the DIF's
+policy. It may be as strong or weak as desired by the DIF and for the wanted
+communication. Then, the destination process gives the joining one a new
+application name so it may communicate on the newly joined DIF with.
+
+\par This design feature is quite useful for hardening security considerations
+in network communications, as being authenticated \textit{every time} means that
+the destination application decides who to talk with and how strict this
+decision is using policies, \textit{every time}. It thus builds greater trust
+between applications through native access control.
+
+\part{(optional) The threats to RINA}
 
 \nocite{*}
 \newpage
