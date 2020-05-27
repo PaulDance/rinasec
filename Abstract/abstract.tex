@@ -4,16 +4,35 @@
 \usepackage[T1]{fontenc}
 \usepackage[english]{babel}
 
-\author{Paul MABILEAU\\\texttt{paul.mabileau@telecom-sudparis.eu} \and Franck STAUFFER\\\texttt{franck.stauffer@telecom-sudparis.eu}}
+\author{Paul MABILEAU\\\texttt{paul.mabileau@telecom-sudparis.eu}
+        \and Franck STAUFFER\\\texttt{franck.stauffer@telecom-sudparis.eu}}
 \title{\textbf{Abstract: Recursive Inter-Network Architecture's Security}}
 
 \begin{document}
 \pagenumbering{gobble}
 \maketitle
 
-The Recursive InterNetwork Architecture (RINA) is an internet model that has been presented by John Day in 2008 \textit{Patterns in Network Architecture: A Return to Fundamentals}.
-RINA is presented as an alternative to TCP/IP because it is claimed to be complex and unsecure.
-It is based on Inter-Processus Communication (IPC) and use a single recursive layer instead of a fixed length layer stack like TCP/IP\@.
-Its main goal is to remove as more variables as possible from the networking part and to normalize everything.
-It uses the Delta-T communication protocol because it is much simpler than the TCP one but provides more control than the UDP one.
+The Recursive InterNetwork Architecture (RINA) is an internet model that has
+been presented by John Day in 2008 \textit{Patterns in Network Architecture: A
+Return to Fundamentals}.  RINA is presented as an alternative to TCP/IP because
+it is claimed to be complex and unsecure.  It is based on Inter-Processus
+Communication (IPC) and use a single recursive layer instead of a fixed length
+layer stack like TCP/IP\@.  Its main goal is to remove as more variables as
+possible from the networking part and to normalize everything.  It uses the
+Delta-T communication protocol because it is much simpler than the TCP one but
+provides more control than the UDP one.
+
+RINA offers quite strong security mechanisms natively through security policies
+that effectively separate protocols from their uses, which in turn allows easy
+network behavior control. One of the most important security aspect is
+authentication: it is always done with a configurable degree of restriction.
+Only then can application processes start to exchange data messages. The
+fundamental rewind enables a strict encapsulation of data units, thus avoiding
+the need to publish addresses. Also, the use of Delta-T, a soft-state transfer
+protocol makes practically infeasible any form of manipulation of connection
+states on both ends. Finally, separating protocols and their configuration
+policies makes enforcing security much easier because stronger security creates
+almost no more additional security mechanisms, thus helping reaching better
+overall security sooner.
+
 \end{document}
