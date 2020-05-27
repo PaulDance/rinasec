@@ -28,27 +28,50 @@ Franck STAUFFER
 
 \AtBeginSection[]{\frame{\sectionpage}}
 
+\setcounter{tocdepth}{1}
+
 \begin{document}
 \maketitle
+
+\begin{frame}
+    \frametitle{Forecast}
+    \begin{itemize}
+        \item Networking is only Inter-Process Communication (IPC)
+        \item Current `internet' is not an actual inter-network
+        \item Networking can be much more simple
+    \end{itemize}
+\end{frame}
+
 \frame{\frametitle{Table of contents}\tableofcontents}
 
+\section{Introduction}
+
+\subsection{Motivation}
+\begin{frame}
+    \begin{itemize}
+        \item TCP/IP is old
+        \item TCP/IP is complex
+        \item TCP/IP is not a good solution for modern issues
+    \end{itemize}
+\end{frame}
+
+\subsection{Problem Statement}
+\frame{\centering Is RINA a secure alternative to TCP/IP?}
+
 \section{RINA architecture}
+\subsection{IPC Process}
+\frame{\centering\includegraphics[scale=2]{IPCP.png}}
+\subsection{IPC API}
+\frame{\includegraphics[width=\textwidth]{API.png}}
+\subsection{Ditributed IPC Facility}
+\frame{\includegraphics[width=\textwidth]{DIF.png}}
+\subsection{Layers}
+\frame{\includegraphics[width=\textwidth]{layers.png}}
+\subsection{Distributed Application Process}
+\frame{\includegraphics[width=\textwidth]{DAP.png}}
+\subsection{Distributed Application Facility}
+\frame{\centering\includegraphics[height=\textheight]{DAF.png}}
 
-\subsection{Architecture components}
-
-\subsubsection{Application Process and Application Entity}
-\begin{frame}
-    \frametitle{Application Process and Application Entity}
-\end{frame}
-
-\subsubsection{Distributed Application Facility}
-\begin{frame}
-    \frametitle{Distributed Application Facility}
-\end{frame}
-
-\subsubsection{Distributed IPC Facility}
-\begin{frame}
-    \frametitle{Distributed IPC Facility}
-\end{frame}
+\section{Conclusion}
 
 \end{document}
