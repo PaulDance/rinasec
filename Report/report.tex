@@ -44,7 +44,16 @@ The DAF can be compared to the Application layer on the TCP/IP model. DAPs need 
 A Distributed IPC Facility (DIF) is a DAF but instead of containing DAPs, it contains IPC Processes (IPCPs).
 It can be compared to a layer in the TCP/IP model but there is not a fixed amount of DIFs, the number can be adapted to the needs of a specific network.
 
+
 \part{Security provided by RINA's conception}
+
+\par In this part, we will study how RINA's design can help in preventing
+various types of attacks through simple and elementary considerations. We will
+also see how the current model for network communications has trouble protecting
+itself from such attacks. This is often the approach used in articles assessing
+RINA's global and general security by comparing current possibilities with the
+RINA model and by trying to re-create these attacks, sometimes theoretically.
+
 \section{Authentication}
 
 \par In RINA, authentication is mandatory. This is one of the major, if not the
@@ -143,7 +152,9 @@ mechanisms in order to circumvent these problems \cite{delta-t}. So not only
 Delta-T makes communicating simpler and cleaner in basic network terms only, it
 also solves quite a few issues related to network and applications security.
 
+
 \part{(optional) The threats to RINA}
+
 
 \nocite{*}
 \newpage
