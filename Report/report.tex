@@ -21,7 +21,7 @@
 \part{Introduction}
 
 The Recursive Inter-Network Architecture (RINA) is a network architecture born
-in John Day's \texttt{Patterns in Network Architecture: A Return to
+in John Day's \textit{Patterns in Network Architecture: A Return to
 Fundamentals} in 2008.  It emerges from the fact that TCP/IP was designed a
 while ago without security in mind and that the huge amount of RFCs\cite{rfc}
 published since 1969 by the IETF to add security in it created
@@ -34,7 +34,7 @@ only Inter Process Communication (IPC) and thus John Day proposed the Recursive
 InterNetwork Architecture (RINA) as an alternative.  RINA promises to reduce
 complexity by reducing the number of protocols, separating mechanisms and
 policies, using connection-less communications and reworking the whole way
-things work.  This architecture claims to be more secure by design than the
+things work.  This architecture is claimed to be more secure by design than the
 TCP/IP architecture.
 
 The architecture is also developped by the Pouzin Society\cite{psoc} that kind
@@ -53,9 +53,8 @@ discuss its security compared to the TCP/IP architecture.
 RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It
 can be stacked as much as needed by the network architecture instead of being a
 static model like in TCP/IP\@.  Inside the DIFs there are IPC Processes (IPCPs)
-that communication using a Common Distributed Application Protocol (CDAP) that
-only allows six basic operations to be used on a remote object
-\cite{Trouva2011ISTI}:
+that communicate using a Common Distributed Application Protocol (CDAP) that
+only allows 4 basic operations to be used on a remote object\cite{Trouva2011ISTI}:
 
 \begin{itemize}
     \item Allocate
@@ -64,13 +63,13 @@ only allows six basic operations to be used on a remote object
     \item Deallocate
 \end{itemize}
 
-Those IPCPs deal with tasks which can be divided in three parts (figure
-\ref{fig:arch}).  The parts are ordered from the less complex and more frequent
+Those IPCPs deal with tasks which can be divided in three parts (figure~\ref{fig:arch}).
+The parts are ordered from the less complex and more frequent
 to the more complex and less frequent ones:
 
 \begin{itemize}
     \item Data Transfer: it deals with SDU delimiting (fragmentation,
-        concatenation, separationm, reassembly), SDU Protection (integrity/error
+        concatenation, separation, reassembly), SDU Protection (integrity/error
         detection), Relaying and Multiplexing Task and actual Data Transfer
         \cite{irati}.
     \item Data Transfer Control: it deals with Transmission Control,
@@ -86,10 +85,11 @@ one exception to this rule, there is a special DIF that is called a Distributed
 Application Facility (DAF) that has no $(N + 1)-DIF$\@.  This DIF is composed of
 one or more Distributed Application Processes (DAPs) in place of IPCPs.  This
 DIF can be considered as the Application layer from the TCP/IP model.  IPCPs
-only communicates with other IPCPs in the same DIF like in the TCP/IP model with
+only communicate with other IPCPs in the same DIF like in the TCP/IP model with
 layers.  IPCs communicate in the form of Protocol Data Units (PDUs) that contain
 a header or a trailer (named Protocol Control Information (PCI)), and a
-payload.\cite{PINS} The DIFs choose to use a connection-oriented or a
+payload, the data received from the above layer is named Service Data Unit (SDU).
+\cite{PINS} The DIFs choose to use a connection-oriented or a
 connection-less communication depending on the needs of the IPCP\@.
 
 \begin{figure}
@@ -102,39 +102,39 @@ connection-less communication depending on the needs of the IPCP\@.
 \section{Delta-t synchronization}
 
 According to RINASim's webpage: `There is no need for explicit state
-synchronization (hard-state) and tools like SYNs and FINs are unnecessary'.
+synchronization (hard-state) and tools like SYNs and FINs are unnecessary'.\cite{rinasim}
 Instead they use the Delta-t transport protocol\cite{65288}.  It is a time-based
 synchronization techniques that only needs 3 timers:
 
 \begin{itemize}
-    \item Maximum Packet Lifetime
-    \item Maximum time to attempt retransmission
-    \item Maximum time before Acknowledgement
+    \item Maximum Packet Lifetime (MPL-timer)
+    \item Maximum time to attempt retransmission (R-timer)
+    \item Maximum time before Acknowledgement (A-timer)
 \end{itemize}
 
-In this protocol, every connections exists at every point in time.  When there
+In this protocol, every connections exist at every point in time.  When there
 is no traffic the synchronization state is maintained during 2 or 3 Maximum
-Packet Lifetimes.\cite{rinasim}
+Packet Lifetimes before resetting connection.\cite{rinasim}
 
 \section{Naming and adressing}
 
-To replace the IP, each IPCP has an variable length address that is visible only
-in the DIF in which it is.  The length of the address is variable but all IPCPs
-in the DIF have the same address length so it is a parameter of the DIF itself.
-When two applications wants to communicate, their underlying DIF knows on which
-IPCP each of them is connected.  So the the apllication that is going to open
+To replace the IP, each IPCP has a variable length address that is visible only
+in the DIF in which it lives.  The length of the address is variable but all IPCPs
+in a DIF have the same address length so it is a parameter of the DIF itself.
+When two applications want to communicate, their underlying DIF knows on which
+IPCP each of them is connected.  So the apllication that is going to open
 communication does an allocate request to its Point of Attachement (PoA, the
 IPCP to which it is connected).  This PoA calls its Flow Allocator to verify the
 request and to verify that enough resources are available.  If it is accepted,
 it seeks for a mapped entry in the local directory if there is an IPCP that is
 connected to the other application.  If it finds one, it sends a request to
-create a flow with a CDAP exchange protocol.  When the PoA of the target
+create a flow using a CDAP exchange protocol.  When the PoA of the target
 application receives the request, it forwards it to the application.  If the
 source application has access rights to the target application, the former asks
 to its PoA to allocate resources for the flow.  Then the PoA sends a CDAP
-response to the other one.  Now the applications can send and receive SDU using
+response to the other one.  Now the applications can send and receive SDUs using
 the the IPC API\@.  At the end of the communication they release the allocated
-resources using this same API\@.\cite{Trouva2011ISTI}
+resources using this same API by calling deallocate.\cite{Trouva2011ISTI}
 
 
 \part{Security provided by RINA's conception}
@@ -156,7 +156,7 @@ often consider attacks plausible only after a successful authentication
 Authentication occurs before a process may communicate on a DIF, either by
 creating a new one, or by joining an existing one, and is verified by the
 destination application process. When creating a brand new DIF, the initial IPC
-process simply has to exist in order to let others join the newly created DIF.
+process simply has to exist in order to let others join the newly created DIF\@.
 When joining an already existing DIF, the joining process asks permission to the
 destination process it wants to communicate with. It achieves this using a
 subsequent DIF that both processes have in common and are authenticated in.  The
@@ -164,7 +164,7 @@ destination process is the one that determines whether the joining one has
 sufficient rights through any sort of authentication, described in the DIF's
 policy. It may be as strong or weak as desired by the DIF and for the wanted
 communication. Then, the destination process gives the joining one a new node
-address so it may communicate on the newly joined DIF with.
+address so it may communicate with the newly joined DIF.
 
 This design feature is quite useful for hardening security considerations in
 network communications, as being authenticated \textit{every time} means that
@@ -195,8 +195,8 @@ This renders the communication not ideal.
 On the contrary, RINA deals with layers in a stricter way: a process may only
 use the functions of a DIF below it is connected to and serve the application
 that is above it. It is not supposed to guess or determine information about
-inferior or superior DIFs. This is the recursive property of RINA. Although it
-may seem simple, it is a fundamental rewind: at any level in the communications
+inferior or superior DIFs. This is the recursive property of RINA\@. Although it
+may seem simple, it is a fundamental rewind: at any level in the communication's
 stack a DIF can decide to encrypt or hash its data units if it does not trust
 its inferior DIF in order to achieve confidentiality or integrity. One can thus
 easily imagine the amount of protection reinforcements that can be achieved with
@@ -211,7 +211,7 @@ still illustrates the possibilities at hand.
 All communication protocols meant to be used in RINA are designed to have soft
 states instead of hard states. That is to say, connections are not established
 with handshakes and terminated with explicit control messages or other types of
-marital negociations, contrary to strongly connected protocols like TCP. In
+marital negociations, contrary to strongly connected protocols like TCP\@. In
 RINA, data transfers use the Delta-T protocol \cite{delta-t}, which is based on
 a couple of timers to check the state of the connection. Given a \textit{Maximum
 Packet Lifetime} (MPL) as defined by the IPC process in the security policy, $2
@@ -243,6 +243,13 @@ mechanisms in order to circumvent these problems \cite{delta-t}. So not only
 Delta-T makes communicating simpler and cleaner in basic network terms only, it
 also solves quite a few issues related to network and applications security.
 
+\part{Conclusion}
+To conclude, it is important to remind that even after 12 years of existence
+no one adopted RINA. It may mean that there is still a lot of work to do on 
+it and that even if it reduces attack surface and has a better design,
+probably not all its vulnerabilities has been discovered. \newline
+Moreover, most of the papers we found had John Day as author or were
+wrote by RINA enthusiasts so there is maybe a lack of objectivity.
 
 \nocite{*}
 \newpage
