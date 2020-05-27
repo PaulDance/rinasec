@@ -135,43 +135,43 @@ resources using this same API\@.\cite{Trouva2011ISTI}
 
 \part{Security provided by RINA's conception}
 
-\par In this part, we will study how RINA's design can help in preventing
-various types of attacks through simple and elementary considerations. We will
-also see how the current model for network communications has trouble protecting
-itself from such attacks. This is often the approach used in articles assessing
-RINA's global and general security by comparing current possibilities with the
-RINA model and by trying to re-create these attacks, sometimes theoretically.
+In this part, we will study how RINA's design can help in preventing various
+types of attacks through simple and elementary considerations. We will also see
+how the current model for network communications has trouble protecting itself
+from such attacks. This is often the approach used in articles assessing RINA's
+global and general security by comparing current possibilities with the RINA
+model and by trying to re-create these attacks, sometimes theoretically.
 
 \section{Authentication}
 
-\par In RINA, authentication is mandatory. This is one of the major, if not the
-most important security feature of the architecture, as previous security
-analysis often consider attacks plausible only after a successful authentication
+In RINA, authentication is mandatory. This is one of the major, if not the most
+important security feature of the architecture, as previous security analysis
+often consider attacks plausible only after a successful authentication
 \cite{assessing-security, wiki, PINS}.
 
-\par Authentication occurs before a process may communicate on a DIF, either by
+Authentication occurs before a process may communicate on a DIF, either by
 creating a new one, or by joining an existing one, and is verified by the
 destination application process. When creating a brand new DIF, the initial IPC
 process simply has to exist in order to let others join the newly created DIF.
 When joining an already existing DIF, the joining process asks permission to the
 destination process it wants to communicate with. It achieves this using a
-subsequent DIF that both processes have in common and are authenticated in.
-The destination process is the one that determines whether the joining one has
+subsequent DIF that both processes have in common and are authenticated in.  The
+destination process is the one that determines whether the joining one has
 sufficient rights through any sort of authentication, described in the DIF's
 policy. It may be as strong or weak as desired by the DIF and for the wanted
-communication. Then, the destination process gives the joining one a new
-node address so it may communicate on the newly joined DIF with.
+communication. Then, the destination process gives the joining one a new node
+address so it may communicate on the newly joined DIF with.
 
-\par This design feature is quite useful for hardening security considerations
-in network communications, as being authenticated \textit{every time} means that
+This design feature is quite useful for hardening security considerations in
+network communications, as being authenticated \textit{every time} means that
 the destination application decides who to talk with and how strict this
 decision is using policies, \textit{every time}. It thus builds greater trust
 between applications through native access control.
 
 \section{Strict encapsulation}
 
-\par Encapsulation is a very common paradigm for network communications, as it
-helps in keeping functionally different parts of the global system separate in
+Encapsulation is a very common paradigm for network communications, as it helps
+in keeping functionally different parts of the global system separate in
 conception as well as in usage. However, the historical TCP/IP model chose to
 apply this by function rather than by scope. This means that separation of
 concerns is relatively poorly achieved because a certain layer needs to know a
@@ -188,54 +188,53 @@ connection, the client has to:
 \end{enumerate}
 This renders the communication not ideal.
 
-\par On the contrary, RINA deals with layers in a stricter way: a process may
-only use the functions of a DIF below it is connected to and serve the
-application that is above it. It is not supposed to guess or determine
-information about inferior or superior DIFs. This is the recursive property of
-RINA. Although it may seem simple, it is a fundamental rewind: at any level in
-the communications stack a DIF can decide to encrypt or hash its data units if
-it does not trust its inferior DIF in order to achieve confidentiality or
-integrity. One can thus easily imagine the amount of protection reinforcements
-that can be achieved with this, which could be loosely compared to \textit{The
-Onion Router} (TOR) project that offers many public and free network relays so
-users may connect to a remote web site only through a circuit of these machines
-with additional encryption between each of them. This project exists mainly for
-privacy concerns, but it still illustrates the possibilities at hand.
+On the contrary, RINA deals with layers in a stricter way: a process may only
+use the functions of a DIF below it is connected to and serve the application
+that is above it. It is not supposed to guess or determine information about
+inferior or superior DIFs. This is the recursive property of RINA. Although it
+may seem simple, it is a fundamental rewind: at any level in the communications
+stack a DIF can decide to encrypt or hash its data units if it does not trust
+its inferior DIF in order to achieve confidentiality or integrity. One can thus
+easily imagine the amount of protection reinforcements that can be achieved with
+this, which could be loosely compared to \textit{The Onion Router} (TOR) project
+that offers many public and free network relays so users may connect to a remote
+web site only through a circuit of these machines with additional encryption
+between each of them. This project exists mainly for privacy concerns, but it
+still illustrates the possibilities at hand.
 
 \section{Soft-state communication}
 
-\par All communication protocols meant to be used in RINA are designed to have
-soft states instead of hard states. That is to say, connections are not
-established with handshakes and terminated with explicit control messages or
-other types of marital negociations, contrary to strongly connected protocols
-like TCP. In RINA, data transfers use the Delta-T protocol \cite{delta-t}, which
-is based on a couple of timers to check the state of the connection. Given a
-\textit{Maximum Packet Lifetime} (MPL) as defined by the IPC process in the
-security policy, $2 \times MPL$ after a packet has been received by the
-recipient or $3 \times MPL$ after the sender last emitted a packet and received
-its corresponding \textit{ACK}, the connection is closed without any form of
-exchange to do so.
+All communication protocols meant to be used in RINA are designed to have soft
+states instead of hard states. That is to say, connections are not established
+with handshakes and terminated with explicit control messages or other types of
+marital negociations, contrary to strongly connected protocols like TCP. In
+RINA, data transfers use the Delta-T protocol \cite{delta-t}, which is based on
+a couple of timers to check the state of the connection. Given a \textit{Maximum
+Packet Lifetime} (MPL) as defined by the IPC process in the security policy, $2
+\times MPL$ after a packet has been received by the recipient or $3 \times MPL$
+after the sender last emitted a packet and received its corresponding
+\textit{ACK}, the connection is closed without any form of exchange to do so.
 
-\par In the traditional model of the Internet, there are two mainstream
-protocols used for the transport layer: TCP and UDP. As we already illustrated,
-TCP is mainly a hard-state connected protocol. UDP is a connectionless protocol,
-which makes it quite simple but as there is no traffic control, it is best
-suited for real-time transfers that can afford loosing a limited quantity of
-information along the way. Therefore, Delta-T in RINA offers an in-between:
-messages are assured to arrive to their destination through positive
-acknowledgment of every message, but connections are managed on both ends using
-simple timer-based mechanisms.
+In the traditional model of the Internet, there are two mainstream protocols
+used for the transport layer: TCP and UDP. As we already illustrated, TCP is
+mainly a hard-state connected protocol. UDP is a connectionless protocol, which
+makes it quite simple but as there is no traffic control, it is best suited for
+real-time transfers that can afford loosing a limited quantity of information
+along the way. Therefore, Delta-T in RINA offers an in-between: messages are
+assured to arrive to their destination through positive acknowledgment of every
+message, but connections are managed on both ends using simple timer-based
+mechanisms.
 
-\par These considerations effectively protect communications in general. Indeed,
-the requirement for an explicitly transfered connection management exposes a
-major attack vector: port scanning, identity impersonation, data injection,
-denial of service, ... These attacks are not necessarily easy, but still are
-elementary, especially the first and last ones. Strictly timer-based handling
-thus avoids risking some sorts of connection manipulation and offers a cleaner
-way of communicating. Note that TCP was originally designed to only use the
-explicit control messages in order to handle connections and manage data flows,
-but many network-related hazards revealed flaws in this type of control, making
-it ineffective. TCP's designers then had to include timer-based and other
+These considerations effectively protect communications in general. Indeed, the
+requirement for an explicitly transfered connection management exposes a major
+attack vector: port scanning, identity impersonation, data injection, denial of
+service, ... These attacks are not necessarily easy, but still are elementary,
+especially the first and last ones. Strictly timer-based handling thus avoids
+risking some sorts of connection manipulation and offers a cleaner way of
+communicating. Note that TCP was originally designed to only use the explicit
+control messages in order to handle connections and manage data flows, but many
+network-related hazards revealed flaws in this type of control, making it
+ineffective. TCP's designers then had to include timer-based and other
 mechanisms in order to circumvent these problems \cite{delta-t}. So not only
 Delta-T makes communicating simpler and cleaner in basic network terms only, it
 also solves quite a few issues related to network and applications security.
