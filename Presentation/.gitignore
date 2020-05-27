@@ -1,4 +1,8 @@
-*
-!presentation.tex
-!*.png
-!.gitignore
+*.aux
+*.log
+*.nav
+*.out
+*.pdf
+*.snm
+*.toc
+
