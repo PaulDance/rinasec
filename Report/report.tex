@@ -23,11 +23,12 @@ RINA promises to reduce complexity by reducing the number of protocols, separati
 This architecture claims to be more secure by design than the TCP/IP architecture.
 \\The architecture is also developped by the Pouzin Society\cite{psoc} that kind of replace the IETF by publishing specifications.
 Some simulations and studies have been lead in Europe with IRATI\cite{web:irati} and PRISTINE\cite{pristine} for example.
+You can also find a framework to test RINA on OMNeT++ named RINASim at \url{https://rinasim.omnetpp.org/}.
 \\First we will provide a presentation of the RINA architecture, then we will discuss its security compared to the TCP/IP architecture.
 \newpage
 
 \part{Comparing RINA and TCP/IP}
-\section{Overview}
+\section{Architecture}
 RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It can be stacked as much as needed by the network architecture instead of being a static model like in TCP/IP\@.
 Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{wiki}:
 \begin{itemize}
@@ -41,7 +42,7 @@ Inside the DIFs there are IPC Processes (IPCPs) that communication using a Commo
 Those IPCPs deal with tasks which can be divided in three parts (figure~\ref{fig:arch}).
 The parts are ordered from the less complex and more frequent to the more complex and less frequent ones:
 \begin{itemize}
-    \item Data Transfer: it deals with SDU delimiting, SDU Protection, Relaying and Multiplexing and actual Data Transfer
+    \item Data Transfer: it deals with SDU delimiting (fragmentation, concatenation, separationm, reassembly), SDU Protection (integrity/error detection), Relaying and Multiplexing Task and actual Data Transfer\cite{irati}
     \item Data Transfer Control: it deals with Transmission Control, Retransmission Control and Flow Control
     \item Layer Management: it deals with Authentication, Enrollment, Namespace Management, Flow Allocation, Forwarding Table Generator, Resource Allocation, Security Management and CDAP Parsing and Generation
 \end{itemize}
@@ -51,12 +52,24 @@ There is one exception to this rule, there is a special DIF that is called a Dis
 This DIF is composed of one or more Distributed Application Processes (DAPs) in place of IPCPs.
 This DIF can be considered as the Application layer from the TCP/IP model.
 IPCPs only communicates with other IPCPs in the same DIF like in the TCP/IP model with layers.
-IPCs communicate in the form of Protocol Data Units (PDUs) that contain a header or a trailer, named Protocol Control Information (PCI), and a payload.
-
+IPCs communicate in the form of Protocol Data Units (PDUs) that contain a header or a trailer (named Protocol Control Information (PCI)), and a payload.\cite{PINS}
+The DIFs choose to use a connection-oriented or a connection-less communication depending on the needs of the IPCP\@.
 
 \begin{figure}
     \centering\includegraphics[width=\columnwidth]{arch.png}\caption{RINA's architecture}\label{fig:arch}
 \end{figure}
+
+\section{Delta-t synchronization}
+According to RINASim's webpage: `There is no need for explicit state synchronization (hard-state) and tools like SYNs and FINs are unnecessary'.
+Instead they use the Delta-t transport protocol\cite{65288}.
+It is a time-based synchronization techniques that only needs 3 timers:
+\begin{itemize}
+    \item Maximum Packet Lifetime
+    \item Maximum time to attempt retransmission
+    \item Maximum time before Acknowledgement
+\end{itemize}
+In this protocol, every connections exists at every point in time.
+When there is no traffic the synchronization state is maintained during 2 or 3 Maximum Packet Lifetimes.\cite{rinasim}
 
 \part{Security provided by RINA's conception}
 
