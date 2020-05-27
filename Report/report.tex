@@ -82,9 +82,9 @@ certain amount of information about its subsequent layer(s) in order to properly
 work and deliver the expected service. For example, when establishing an HTTP
 connection, the client has to:
 \begin{enumerate}
-    \item Resolve the IP address through the Domain Name System (DNS). One could
-        argue that this constitutes a two-level layer leakage, as it crosses TCP
-        and IP.
+    \item Resolve the IP address through the \textit{Domain Name System} (DNS).
+        One could argue that this constitutes a two-level layer leakage, as it
+        crosses TCP and IP.
     \item Use the resulting IP address in the transport layer (TCP) in order to
         establish a connection.
     \item Suppose the correct destination port using well-known ports.
@@ -99,10 +99,10 @@ RINA. Although it may seem simple, it is a fundamental rewind: at any level in
 the communications stack a DIF can decide to encrypt or hash its data units if
 it does not trust its inferior DIF in order to achieve confidentiality or
 integrity. One can thus easily imagine the amount of protection reinforcements
-that can be achieved with this, which could be loosely compared to The Onion
-Router (TOR) project that offers many public and free network relays so users
-may connect to a remote web site only through a circuit of these machines with
-additional encryption between each of them. This project exists mainly for
+that can be achieved with this, which could be loosely compared to \textit{The
+Onion Router} (TOR) project that offers many public and free network relays so
+users may connect to a remote web site only through a circuit of these machines
+with additional encryption between each of them. This project exists mainly for
 privacy concerns, but it still illustrates the possibilities at hand.
 
 \section{Soft-state communication}
@@ -113,10 +113,10 @@ established with handshakes and terminated with explicit control messages or
 other types of marital negociations, contrary to strongly connected protocols
 like TCP. In RINA, data transfers use the Delta-T protocol \cite{delta-t}, which
 is based on a couple of timers to check the state of the connection. Given a
-Maximum Packet Lifetime (MPL) as defined by the IPC process in the security
-policy, $2 \times MPL$ after a packet has been received by the recipient or $3
-\times MPL$ after the sender last emitted a packet and received its
-corresponding \textit{ACK}, the connection is closed without any form of
+\textit{Maximum Packet Lifetime} (MPL) as defined by the IPC process in the
+security policy, $2 \times MPL$ after a packet has been received by the
+recipient or $3 \times MPL$ after the sender last emitted a packet and received
+its corresponding \textit{ACK}, the connection is closed without any form of
 exchange to do so.
 
 \par In the traditional model of the Internet, there are two mainstream
