@@ -32,12 +32,10 @@ You can also find a framework to test RINA on OMNeT++ named RINASim at \url{http
 RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It can be stacked as much as needed by the network architecture instead of being a static model like in TCP/IP\@.
 Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{wiki}:
 \begin{itemize}
-    \item Create
-    \item Delete
-    \item Read
-    \item Start
-    \item Stop
-    \item Write
+    \item Allocate 
+    \item Send
+    \item Receive
+    \item Deallocate
 \end{itemize}
 Those IPCPs deal with tasks which can be divided in three parts (figure~\ref{fig:arch}).
 The parts are ordered from the less complex and more frequent to the more complex and less frequent ones:
