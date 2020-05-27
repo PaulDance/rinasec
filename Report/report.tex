@@ -30,7 +30,7 @@ You can also find a framework to test RINA on OMNeT++ named RINASim at \url{http
 \part{Comparing RINA and TCP/IP}
 \section{Architecture}
 RINA uses a single recursive layer named a Distributed IPC Facility (DIF). It can be stacked as much as needed by the network architecture instead of being a static model like in TCP/IP\@.
-Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{wiki}:
+Inside the DIFs there are IPC Processes (IPCPs) that communication using a Common Distributed Application Protocol (CDAP) that only allows six basic operations to be used on a remote object\cite{Trouva2011ISTI}:
 \begin{itemize}
     \item Allocate 
     \item Send
@@ -68,6 +68,20 @@ It is a time-based synchronization techniques that only needs 3 timers:
 \end{itemize}
 In this protocol, every connections exists at every point in time.
 When there is no traffic the synchronization state is maintained during 2 or 3 Maximum Packet Lifetimes.\cite{rinasim}
+
+\section{Naming and adressing}
+To replace the IP, each IPCP has an variable length address that is visible only in the DIF in which it is.
+The length of the address is variable but all IPCPs in the DIF have the same address length so it is a parameter of the DIF itself.
+When two applications wants to communicate, their underlying DIF knows on which IPCP each of them is connected.
+So the the apllication that is going to open communication does an allocate request to its Point of Attachement (PoA, the IPCP to which it is connected).
+This PoA calls its Flow Allocator to verify the request and to verify that enough resources are available.
+If it is accepted, it seeks for a mapped entry in the local directory if there is an IPCP that is connected to the other application.
+If it finds one, it sends a request to create a flow with a CDAP exchange protocol.
+When the PoA of the target application receives the request, it forwards it to the application.
+If the source application has access rights to the target application, the former asks to its PoA to allocate resources for the flow.
+Then the PoA sends a CDAP response to the other one.
+Now the applications can send and receive SDU using the the IPC API\@.
+At the end of the communication they release the allocated resources using this same API\@.\cite{Trouva2011ISTI}
 
 \part{Security provided by RINA's conception}
 
