@@ -105,6 +105,43 @@ may connect to a remote web site only through a circuit of these machines with
 additional encryption between each of them. This project exists mainly for
 privacy concerns, but it still illustrates the possibilities at hand.
 
+\section{Soft-state communication}
+
+\par All communication protocols meant to be used in RINA are designed to have
+soft states instead of hard states. That is to say, connections are not
+established with handshakes and terminated with explicit control messages or
+other types of marital negociations, contrary to strongly connected protocols
+like TCP. In RINA, data transfers use the Delta-T protocol \cite{delta-t}, which
+is based on a couple of timers to check the state of the connection. Given a
+Maximum Packet Lifetime (MPL) as defined by the IPC process in the security
+policy, $2 \times MPL$ after a packet has been received by the recipient or $3
+\times MPL$ after the sender last emitted a packet and received its
+corresponding \textit{ACK}, the connection is closed without any form of
+exchange to do so.
+
+\par In the traditional model of the Internet, there are two mainstream
+protocols used for the transport layer: TCP and UDP. As we already illustrated,
+TCP is mainly a hard-state connected protocol. UDP is a connectionless protocol,
+which makes it quite simple but as there is no traffic control, it is best
+suited for real-time transfers that can afford loosing a limited quantity of
+information along the way. Therefore, Delta-T in RINA offers an in-between:
+messages are assured to arrive to their destination through positive
+acknowledgment of every message, but connections are managed on both ends using
+simple timer-based mechanisms.
+
+\par These considerations effectively protect communications in general. Indeed,
+the requirement for an explicitly transfered connection management exposes a
+major attack vector: port scanning, identity impersonation, data injection,
+denial of service, ... These attacks are not necessarily easy, but still are
+elementary, especially the first and last ones. Strictly timer-based handling
+thus avoids risking some sorts of connection manipulation and offers a cleaner
+way of communicating. Note that TCP was originally designed to only use the
+explicit control messages in order to handle connections and manage data flows,
+but many network-related hazards revealed flaws in this type of control, making
+it ineffective. TCP's designers then had to include timer-based and other
+mechanisms in order to circumvent these problems \cite{delta-t}. So not only
+Delta-T makes communicating simpler and cleaner in basic network terms only, it
+also solves quite a few issues related to network and applications security.
 
 \part{(optional) The threats to RINA}
 
